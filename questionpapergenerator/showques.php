@@ -1,24 +1,26 @@
 <?php
 require_once 'class.user.php';
+require_once 'dbconnect.php';
+session_start();
+ $database = new Database();
+ $db = $database->dbConnection();
 $user = new USER();
-if($user->is_logged_in()!="")
+if(!$user->is_logged_in() )
 {
  $user->redirect('index.php');
 }
 if(isset($_POST['form1'])){
 
-$sub = $_POST['subjectselect'];
-$subno = $user->getvalue("subno","subject","subname",$sub);
-$value_result = $this->$conn->prepare("SELECT * FROM question WHERE subno = '".$subno. "'");
-$value_result->execute();
-$value = $value_result->fetchAll(PDO::FETCH_ASSO);
+$subno = $_POST['subjectselect']; 
+
 
 }
-if(isset($_POST['form2'])){
+ if(isset($_POST['form2'])){
         if(!empty($_POST['check_list'])){
         foreach($_POST['check_list'] as $qno){
-        $user->deleteques($qno)
-        }
+        $user->deleteques($qno);
+    }
+        
         echo '<script type="text/javascript">'; 
         echo 'alert("Question Deleted sucessfully");'; 
         echo '</script>';
@@ -143,18 +145,18 @@ if(isset($_POST['form2'])){
                             </div>
                             <div class="content all-icons">
                                 <div class="row">
-                                    <form  name = "searchcust" class="search_form" action="custdetails.php" method="post">
+                                    <form  name = "searchcust" class="search_form" action="" method="post">
                                         <table>
-                                            <tr>
-                                            <td><span class="span1"> Select Subject :-</span></td>
+                                             <tr>
+                                            <td><span class="span1"> Select Subject </span></td><td> :- </td>
                                             <td><select name="subjectselect">
-                                                <?php
-                                                $cid = $_SESSION['custid'];
-                                                $row_sub = $user->getvalue("subname","subject","custid",$cid);
-                                                foreach($row_sub as $row){
-                                                    echo "<option value=\"" . $row['subname'] . "\">". $row['subname'] ."</option>";
-                                                }
-                                            ?>
+                                                  <?php require "selectsub.php" ;
+                                                  foreach($value as $row){
+                                                    echo "<option value=\"" . $row['subno'] . "\">". $row['subname'] ."</option>";
+                                                    }
+
+                                                  ?>
+
                                             </select></td>
                                             
                                         <td><button type="submit" name="form1" class="button1">Go</button></td>
@@ -163,17 +165,20 @@ if(isset($_POST['form2'])){
                                         <table class="validatecust" style="font-size: 30px; border-top: 1px solid #ddd;padding: 15px;font-size: 20px;text-align: left;margin: 5px;">
                                             <tr>
                                                 <td> </td>
-                                                <td>Question </td>
-                                                <td>Difficulty</td>
+                                                <td>Question </td> 
                                                 <td>Marks</td>
+                                                <td>Unit</td>
                                             </tr>
                                             <?php 
+                                            $value_result = $db->prepare("SELECT * FROM question WHERE subno = '".$subno. "'");
+                                            $value_result->execute();
+                                            $value = $value_result->fetchAll();
                                                     foreach ($value as $row) {
                                                         echo "<tr>";
                                                         echo "<td><input type='checkbox' name='check_list[]' value='".$row["qno"]."'</td>";
-                                                        echo "<td>".$row["ques"]."</td>";
-                                                        echo "<td>".$row['diff']."</td>";
+                                                        echo "<td>".$row["ques"]."</td>"; 
                                                         echo "<td>".$row['marks']."</td>";
+                                                        echo "<td>".$row['unit']."</td>";
                                                     }
                                             ?>
                                        </table>
@@ -200,7 +205,7 @@ if(isset($_POST['form2'])){
 
                     </ul>
                 </nav>
-                <?php include '../inc/footer.php'; ?>
+                <?php include 'footer.php'; ?>
             </div>
         </footer>
 

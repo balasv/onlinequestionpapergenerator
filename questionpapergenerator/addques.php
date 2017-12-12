@@ -1,26 +1,32 @@
 <?php
+session_start();
 require_once 'class.user.php';
 $user = new USER();
-if($user->is_logged_in()!="")
+if(!$user->is_logged_in())
 {
  $user->redirect('index.php');
 }
 if(isset($_POST['submit']))
 {
- $counter = $_COOKIE["counter"];
- $cid = $_SESSION['custid'];
- $sub = $_POST['subjectselect'];
+ $cid = $_SESSION['customerSession'];
+ $subno = $_POST['subjectselect'];
  $type = $_POST['radio'];
- $subno = $user->getvalue("subno","subject","subname",$sub);
+
+ /*$counter = $_POST['counter'];
  while ($counter > 0){
- $ques = $_POST['ques'.$counter.''];
- $diff = $_POST['diff'.$counter.''];
- $marks = $_POST['marks'.$counter.''];
- if($user->addques($subno,$cid,$ques,$diff,$type,$marks)){
-    $counter=$counter -1;
- }
- }
- if($counter == 0){
+ $ques = $_POST['ques'.$counter.'']; 
+ $marks = $_POST['marks'];
+  $unit = $_POST['unit'.$counter.''];
+
+ */
+$ques = $_POST['ques1']; 
+$marks = $_POST['marks1'];
+$unit = $_POST['unit1'];
+ if($user->addques($subno,$cid,$ques,$type,$marks,$unit)){
+   // $counter=$counter -1;
+ //}
+ //}
+ //if($counter == 0){
     echo '<script type="text/javascript">'; 
     echo 'alert("Question Added Sucessfully");'; 
     echo 'window.location.href = "home.php";';
@@ -28,7 +34,7 @@ if(isset($_POST['submit']))
  }
  else {
     echo '<script type="text/javascript">'; 
-    echo 'alert("Error in adding some Question");'; 
+    echo 'alert("Error in adding  Question");'; 
     echo 'window.location.href = "home.php";';
     echo '</script>';
  }
@@ -147,27 +153,34 @@ if(isset($_POST['submit']))
                             </div>
                             <div class="content all-icons">
                                 <div class="row">
-                                    <form  name = "searchcust" class="search_form" action="custdetails.php" method="post">
-                                       fgv
+                                    <form  name = "searchcust" class="search_form" action="" method="post">
                                         <table>
-                                            <tr><td>rd</td></tr>
-                                            
-                                            yujg
+                                            <tr><td>Subject</td>
+                                                <td> :- </td>
+                                            <td>
+                                                <select name="subjectselect">
+                                                    <?php require "selectsub.php" ;
+                                                    foreach($value as $row){
+                                                    echo "<option value=\"" . $row['subno'] . "\">". $row['subname'] ."</option>";
+                                                    }
+
+                                                    ?>
+                                                </select>
+                                            </td>
+                                        </tr>
                                             <tr>
-                                             <td><input type="radio" name="radio" value="MCQ">MCQ&nbsp;&nbsp;&nbsp;</td>
-                                             <td><input type="radio" name="radio" value="Regular">Regular&nbsp;&nbsp;&nbsp;</td>
+                                             <td><input type="radio" name="radio" value="M">MCQ&nbsp;&nbsp;&nbsp;</td>
+                                             <td><input type="radio" name="radio" value="R">Regular&nbsp;&nbsp;&nbsp;</td>
                                             </tr>
                                             </table>
                                             <div id="dynamicInput">
-                                            <input type="text" name="ques1" placeholder="Write Question Here"><br>
-                                            Difficulty:- <select name="diff1">
-                                            <option value="E">Easy</option>
-                                            <option value="M">Medium</option>
-                                            <option value="H">Hard</option>
-                                            </select>&nbsp;&nbsp;&nbsp;
-                                            <input type="text" name="marks1" placeholder="Enter marks">
+                                            <input type="text" name="ques1" placeholder="Write Question Here" required><br>
+                                             <input type="number" name="unit1" placeholder="Enter Unit" required> 
+                                            &nbsp;&nbsp;&nbsp;
+                                            <input type="text" name="marks1" placeholder="Enter marks" required>
                                             </div>
-                                         <input type="button" value="Add more Question" onClick="addInput('dynamicInput')">   
+                                        <!--<input type="hidden" name="counter" value="1" >
+                                        <input type="button" value="Add more Question" onClick="addInput('dynamicInput')">   -->
                                         <button type="submit" name="submit" class="button1">Add</button>
                                         <button type="reset" name="reset" class="button1">Reset</button>
                                     </form>

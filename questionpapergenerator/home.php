@@ -56,13 +56,13 @@ if(!$user->is_logged_in())
                     </a>
                 </li>
                 <li>
-                    <a href="viewques.php"> 
+                    <a href="choosesub.php"> 
                         <p>View question</p>
                     </a>
                 </li>
                 <li>
-                    <a href="removeques.php"> 
-                        <p>Remove question</p>
+                    <a href="removesub.php"> 
+                        <p>Remove Subject</p>
                     </a>
                 </li>
                 <li>
@@ -137,8 +137,8 @@ if(!$user->is_logged_in())
                                     <div class="row">
                                       <div class="font-icon-list col-lg-2 col-md-3 col-sm-4 col-xs-6 col-xs-6">
                                         <div class="font-icon-detail" style="position:absolute;  left:  100px;top: 150px"><img src="icon/viewcust.ico" class="icondash"> 
-                                            <a href="removeques.php"> 
-                                              <p>Remove question</p>
+                                            <a href="removesub.php"> 
+                                              <p>Remove subject</p>
                                             </a>
                                         </div>
                                       </div>

@@ -112,17 +112,17 @@ class USER
     $stmt = $this->conn->exec($sql);
 
  }
- public function addques($subno,$custid,$ques,$diff,$type,$marks){
+ public function addques($subno,$custid,$ques,$type,$marks,$unit){
   try
         { 
-            $stmt = $this->conn->prepare("INSERT INTO question($subno,$custid,$ques,$diff,$type,$marks)
-                                                VALUES(:subno, :custid, :ques, :diff, :type, :marks)");
+            $stmt = $this->conn->prepare("INSERT INTO question(subno,custid,ques,type,marks,unit)
+                                                VALUES(:subno, :custid, :ques, :type, :marks, :unit)");
             $stmt->bindparam(":subno",$subno); 
             $stmt->bindparam(":custid",$custid); 
-            $stmt->bindparam(":ques",$ques);
-            $stmt->bindparam(":diff",$diff);
+            $stmt->bindparam(":ques",$ques); 
             $stmt->bindparam(":type",$type);
             $stmt->bindparam(":marks",$marks);
+            $stmt->bindparam(":unit",$unit);
             $stmt->execute();
             return $stmt;
         }

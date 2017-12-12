@@ -41,39 +41,40 @@ $('.tab a').on('click', function (e) {
   $(target).fadeIn(600);
   
 });
-
+ var counter = 1;
 function addInput(divName){
-  var counter = 1; 
-          if(delete_cookie("counter")){
-            alert("Deleted sucessfully");
-          }
-          else{
-            alert("Delted unsucessfully");
-          }
+        if( !document.refreshForm.visited.value == "" )
+  {counter = 1;
+  }
           var newdiv = document.createElement('div');
           var newdiv1 = document.createElement('div');
-          newdiv.innerHTML = "<input type='text' name='ques" + (counter + 1) + "' placeholder='Write Question Here'><br>Difficulty:- <select name='diff" + (counter + 1) + "'>"+
-            "<option value='E'>Easy</option><option value='M'>Medium</option><option value='H'>Hard</option></select>&nbsp;&nbsp;&nbsp;";
+          newdiv.innerHTML = "<input type='text' name='ques" + (counter + 1) + "' placeholder='Write Question Here'><br>"+
+            "<input type='number' name='unit" + (counter + 1) + "' placeholder='Enter Unit' required>&nbsp;&nbsp;&nbsp;";
           
            newdiv1.innerHTML ="<input type='text' name='marks" + (counter + 1) + "' placeholder='Enter marks'>" ;
           document.getElementById(divName).appendChild(newdiv);
           document.getElementById(divName).appendChild(newdiv1);
           counter++;
-          createCookie("counter", counter, "1");   
+          document.searchcust.counter.value = counter;
           
 
 }
- function createCookie(name, value, days) {
- var expires;
- if (days) {
-  var date = new Date();
-  date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-  expires = "; expires=" + date.toGMTString();
- } else {
-  expires = "";
- }
-  document.cookie = escape(name) + "=" + escape(value) + expires + "; path=/";
- }
- function delete_cookie(name) {
-  document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+function addquestion(){
+         var counter = 1;
+         var char = 'A';
+         var total =document.getElementById('tqno').value;
+          var newdiv = document.createElement('div');
+          $("#totalqno").show()
+          // alert("We are here "+(total));
+          while(counter <= total){ 
+            newdiv.innerHTML ="QNo:- "+ (char) +" <input type='text' name='mainques" + (counter) + "' placeholder='Enter Sub Questions'><br>";
+             
+          document.getElementById("totalqno").appendChild(newdiv.cloneNode(true)); alert("We are here "+(counter));
+          counter++;
+          char= String.fromCharCode(char.charCodeAt(0) + 1);
+          } 
+          //document.Selectqno.totalqno.value = counter;
+          
+
 }
+ 

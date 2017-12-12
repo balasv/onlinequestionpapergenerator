@@ -1,19 +1,19 @@
 <?php
-require_once 'class.user.php';
-$user = new USER();
-if($user->is_logged_in()!="")
+require_once 'class.user.php'; 
+   $user = new USER();
+   if(!session_id()) 
+    { 
+        session_start(); 
+    } 
+if(!$user->is_logged_in())
 {
  $user->redirect('index.php');
-}
-$cid = $_SESSION['custid'];
-$value_result = $this->$conn->prepare("SELECT * FROM subject WHERE custid = '".$cid. "'");
-$value_result->execute();
-$value = $value_result->fetchAll(PDO::FETCH_ASSO);
+} 
 
 if(isset($_POST['submit'])){
         if(!empty($_POST['check_list'])){
         foreach($_POST['check_list'] as $subno){
-        $user->deleteques($subno)
+        $user->deleteques($subno);
         }
         echo '<script type="text/javascript">'; 
         echo 'alert("Subject Deleted sucessfully");'; 
@@ -147,6 +147,7 @@ if(isset($_POST['submit'])){
                                                 <td>Subject Name </td>
                                             </tr>
                                             <?php 
+                                                    require "selectsub.php" ;
                                                     foreach ($value as $row) {
                                                         echo "<tr>";
                                                         echo "<td><input type='checkbox' name='check_list[]' value='".$row["subno"]."'</td>";
@@ -154,7 +155,7 @@ if(isset($_POST['submit'])){
                                                     }
                                             ?>
                                        </table>
-                                       <button type="submit" name="submit" class="button1">Delete question</button>
+                                       <button type="submit" name="submit" class="button1">Delete Subject</button>
                                     </form>
                                 </div>
                             </div>
@@ -177,7 +178,7 @@ if(isset($_POST['submit'])){
 
                     </ul>
                 </nav>
-                <?php include '../inc/footer.php'; ?>
+                <?php include 'footer.php'; ?>
             </div>
         </footer>
 
